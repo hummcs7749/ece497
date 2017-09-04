@@ -1,4 +1,4 @@
-//Curtis Humm, etch-a-sketch homework one. Due 9/5/17
+/**Curtis Humm, etch-a-sketch homework one. Due 9/5/17**/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,6 +8,8 @@ int width;
 int height;
 int x;
 int y;
+
+int printGrid(char grid[][width]);
 
 int main(int argc, char **argv) {
 
@@ -32,7 +34,7 @@ int main(int argc, char **argv) {
   y = 0;
   grid[0][0] = 'X';
 
-  //Opening Remarks
+  /**Opening Remarks**/
 
   printf("Welcome to BeagleSketch! Here are the rules\n");
   printf("w -> Move Up\n");
@@ -44,7 +46,7 @@ int main(int argc, char **argv) {
 
 
 
-  //begin
+  /**User Input*/
   int persist = 0;
   while(persist == 0) {
     printGrid(grid);
@@ -59,7 +61,7 @@ int main(int argc, char **argv) {
     }
 
     if(in == 's'){
-      if(y < height) {
+      if(y < height - 1) {
         y++;
         grid[y][x] = 'X';
       }
@@ -73,7 +75,7 @@ int main(int argc, char **argv) {
     }
 
     if(in == 'd'){
-      if(x < width) {
+      if(x < width - 1) {
         x++;
         grid[y][x] = 'X';
       }
@@ -92,11 +94,13 @@ int main(int argc, char **argv) {
     }
 
   }
-//End
+  /**End User Input**/
 
   return 0;
 }
 
+
+/**Used to print the board**/
 int printGrid(char grid[][width]){
 
   int i = 0;
