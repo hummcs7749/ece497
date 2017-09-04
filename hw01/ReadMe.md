@@ -1,3 +1,7 @@
+I have completed all of steps one through six, although I have had some trouble using cloud nine.
+
+
+Etch-a-sketch Notes
 This directory contains the sketch.c file used to complete homework one. sketch.c
 is called with the variables for height and width in the format
 
