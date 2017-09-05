@@ -36,13 +36,14 @@ int main(int argc, char **argv) {
 
   /**Opening Remarks**/
 
-  printf("Welcome to BeagleSketch! Here are the rules\n");
+  printf("Welcome to BeagleSketch! Here are the rules.\n");
   printf("w -> Move Up\n");
   printf("s -> Move Down\n");
   printf("a -> Move Left\n");
   printf("d -> Move Right\n");
   printf("c -> Clear Board\n");
   printf("x -> Exit Program\n");
+  printf("Enjoy!\n");
 
 
 
@@ -105,6 +106,8 @@ int printGrid(char grid[][width]){
 
   int i = 0;
   int j = 0;
+  int k = 0;
+  int temp;
   int count = 0;
   printf("   ");
   for(i = 0; i < width; i++) {
@@ -118,6 +121,11 @@ int printGrid(char grid[][width]){
     count++;
     for(j = 0; j < width; j++) {
       printf("%c ", grid[i][j]);
+      temp = j/10;
+      while(temp > 0) {
+        printf(" ");
+        temp = temp/10;
+      }
     }
     printf("\n");
   }

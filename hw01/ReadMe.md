@@ -19,7 +19,7 @@ x- exits the program
 One should press enter after every command in input. 
 
 Example Compile/Run for an 8x8 board
-gcc sketch.c -g -Wall -c -ansi
+gcc sketch.c 
 ./a.out 8 8
 
 Sample Output
