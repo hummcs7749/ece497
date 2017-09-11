@@ -4,39 +4,56 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
+#Global variable for position
 x = 0
 y = 0
+#Global variable for the grid
 grid = {} 
+#Global Variable whether or not to continue
 persist = 0
 
+
+#Button Events to move directionally
 def btnUp(channel):
-    global y 
-    if(y > 0) :
-        y = y - 1
-        grid[y, x] = "X"
-        printGrid()
+  global y 
+  if(y > 0) :
+    y = y - 1
+    grid[y, x] = "X"
+    printGrid()
         
 def btnRight(channel):
-    global x 
-    if(x < width - 1) :
-        x = x + 1
-        grid[y, x] = "X"
-        printGrid()
+  global x 
+  if(x < width - 1) :
+    x = x + 1
+    grid[y, x] = "X"
+    printGrid()
 
 def btnLeft(channel):
-    global x 
-    if(x > 0) :
-        x = x - 1
-        grid[y, x] = "X"
-        printGrid()
+  global x 
+  if(x > 0) :
+    x = x - 1
+    grid[y, x] = "X"
+    printGrid()
         
 def btnDown(channel):
-    global y 
-    if(y < height - 1) :
-        y = y + 1
-        grid[y, x] = "X"
-        printGrid()
-
+  global y 
+  if(y < height - 1) :
+    y = y + 1
+    grid[y, x] = "X"
+    printGrid()
+    
+#Button Event triggered by PAUSE to clear the board
+def btnClear(channel):
+  for i in range (0, width) :
+    for j in range (0, width) :
+      grid[i, j] = " "
+  printGrid()
+  
+#Button Event triggered by MODE to quit
+def btnQuit(channel):
+  quit()
+        
+#Method to print the grid
 def printGrid():
   count = 0;
   print("    ", end = "")
@@ -58,17 +75,17 @@ def printGrid():
         temp = temp/10
     print("")
     
-button1="PAUSE"  
-button2="GP0_4"
-button3="GP0_6"
-button4="MODE"  
-
-GPIO.setup(button1, GPIO.IN)
-GPIO.setup(button2, GPIO.IN)
-GPIO.setup(button3, GPIO.IN)
-GPIO.setup(button4, GPIO.IN)
+#Sets arrays of buttons and accompanying methods
+buttons = ["GP0_3", "GP0_4", "GP0_5", "GP0_6", "PAUSE", "MODE"]
+commands = [btnRight, btnLeft, btnDown, btnUp, btnClear, btnQuit]
 
 
+#For loop to set up the buttons
+for i in range (0, 6) :
+    GPIO.setup(buttons[i], GPIO.IN)
+    GPIO.add_event_detect(buttons[i], GPIO.RISING, callback=commands[i])
+
+#User input to create grid
 width = input("What is the width: ")
 print("The width is " + width)
 height = input("What is the height: ")
@@ -77,28 +94,15 @@ print("The height is " + height)
 width = int(width)
 height = int(height)
 
-
+#Creates the grid
 for i in range (0, width) :
     for j in range (0, height) :
         grid[i,j] = " "
-        
-for i in range (0, width) :
-    for j in range (0, height) :
-        print(grid[i,j], end = "")
-    print("")
 
-print("")
-
-
-
-GPIO.add_event_detect(button1, GPIO.RISING, callback=btnUp)
-GPIO.add_event_detect(button2, GPIO.RISING, callback=btnRight)
-GPIO.add_event_detect(button3, GPIO.RISING, callback=btnLeft)
-GPIO.add_event_detect(button4, GPIO.RISING, callback=btnDown)
-
-
+#Loop to be used for keyboard commands
 while(persist == 0) :
     printGrid()
+    #Takes input for keyboard commands
     inp = input("")
     if(inp == 'w') :
       if(y > 0) :

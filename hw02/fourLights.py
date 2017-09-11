@@ -1,66 +1,41 @@
 #!/usr/bin/env python3
-# Reads the PAUSE button using interupts and sets the LED
-# Pin table at https://github.com/beagleboard/beaglebone-blue/blob/master/BeagleBone_Blue_Pin_Table.csv
+# Reads four input buttons to light four corresponding LEDs
 
 # Import PyBBIO library:
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
-button1="PAUSE"  
-button2="GP0_4"
-button3="MODE"  
-button4="GP0_6"
+#Setup the array
+leds = ["GP1_3", "GP1_4", "RED", "GREEN"]
+buttons = ["GP0_3", "GP0_4", "GP0_5", "GP0_6"]
 
-LED1   ="GP1_3"
-LED2   ="GP1_4"
-LED3   ="RED"
-LED4   ="GREEN"
-
-
-# Set the GPIO pins:
-GPIO.setup(LED1,    GPIO.OUT)
-GPIO.setup(LED2,    GPIO.OUT)
-GPIO.setup(LED3,    GPIO.OUT)
-GPIO.setup(LED4,    GPIO.OUT)
-GPIO.setup(button1, GPIO.IN)
-GPIO.setup(button2, GPIO.IN)
-GPIO.setup(button3, GPIO.IN)
-GPIO.setup(button4, GPIO.IN)
-
-GPIO.output(LED1, 1)
-GPIO.output(LED2, 1)
-GPIO.output(LED3, 1)
-GPIO.output(LED4, 1)
-
-print("Running..")
-
-GPIO.add_event_detect(button1, GPIO.BOTH) # RISING, FALLING or BOTH
-GPIO.add_event_detect(button2, GPIO.BOTH)
-GPIO.add_event_detect(button3, GPIO.BOTH)
-GPIO.add_event_detect(button4, GPIO.BOTH)
-
-
-while True:   # This is ugly since we have to poll for the event
-  if GPIO.event_detected(button1):
-    print("Note")
-    state = GPIO.input(button1)
-    GPIO.output(LED1, state)
-    print(LED1 + " Toggled")
+#Button Event Handler
+def updateLED(channel):
+    print("channel = " + channel)
+    state = GPIO.input(channel)
+    GPIO.output(map[channel], state)
+    print(map[channel] + " Toggled")
+  
+#Dictionary to hold button/led pairs
+map = {}
     
-  if GPIO.event_detected(button2):
-    print("Note")
-    state = GPIO.input(button2)
-    GPIO.output(LED2, state)
-    print(LED2 + " Toggled")
+#For loop to set up the button/leds
+for x in range (0, 4) :
+    GPIO.setup(leds[x],    GPIO.OUT)
+    GPIO.setup(buttons[x], GPIO.IN)
+    GPIO.output(leds[x], 1)
+    map[buttons[x]] = leds[x]
+    GPIO.add_event_detect(buttons[x], GPIO.BOTH, callback=updateLED)
     
-  if GPIO.event_detected(button3):
-    print("Note")
-    state = GPIO.input(button3)
-    GPIO.output(LED3, state)
-    print(LED3 + " Toggled")
-    
-  if GPIO.event_detected(button4):
-    print("Note")
-    state = GPIO.input(button4)
-    GPIO.output(LED4, state)
-    print(LED4 + " Toggled")
+
+print("Running...")
+
+#Loop until program exits
+try:
+    while True:
+        time.sleep(100)   # Let other processes run
+
+except KeyboardInterrupt:
+    print("Cleaning Up")
+    GPIO.cleanup()
+GPIO.cleanup()
