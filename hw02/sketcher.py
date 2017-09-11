@@ -15,6 +15,27 @@ def btnUp(channel):
         y = y - 1
         grid[y, x] = "X"
         printGrid()
+        
+def btnRight(channel):
+    global x 
+    if(x < width - 1) :
+        x = x + 1
+        grid[y, x] = "X"
+        printGrid()
+
+def btnLeft(channel):
+    global x 
+    if(x > 0) :
+        x = x - 1
+        grid[y, x] = "X"
+        printGrid()
+        
+def btnDown(channel):
+    global y 
+    if(y < height - 1) :
+        y = y + 1
+        grid[y, x] = "X"
+        printGrid()
 
 def printGrid():
   count = 0;
@@ -39,8 +60,8 @@ def printGrid():
     
 button1="PAUSE"  
 button2="GP0_4"
-button3="MODE"  
-button4="GP0_6"
+button3="GP0_6"
+button4="MODE"  
 
 GPIO.setup(button1, GPIO.IN)
 GPIO.setup(button2, GPIO.IN)
@@ -71,7 +92,9 @@ print("")
 
 
 GPIO.add_event_detect(button1, GPIO.RISING, callback=btnUp)
-#GPIO.add_event_detect(buttons[0], GPIO.BOTH, callback=updateLED)
+GPIO.add_event_detect(button2, GPIO.RISING, callback=btnRight)
+GPIO.add_event_detect(button3, GPIO.RISING, callback=btnLeft)
+GPIO.add_event_detect(button4, GPIO.RISING, callback=btnDown)
 
 
 while(persist == 0) :
