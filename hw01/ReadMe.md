@@ -1,4 +1,25 @@
-I have completed all of steps one through six, although I have had some trouble using cloud nine.
+I have completed all of steps one through six, broken down item by item 
+as follows
+
+
+1. Installing the latest shipped image on the BeagleBone
+   My BeagleBone blue is operational with a flashed sd card
+2. Setting up a host computer with Linux for kernel development
+   My computer has a dual boot from when I took CSSE332, and thus had linux
+already installed. 
+3. Gathering all the needed SD cards, cables, etc.
+   I have three SD cards, an SD card reader, a USB extender, and the bone 
+itself. I have also checked out the lab kit from the parts room. 
+   
+4. Installing git on a your host
+   I updated my git repository from my summer internship and have ready acess 
+from my host computer and my BeagleBone
+5. signing up for the two beagle Google groups (See Working With Open Source)
+   I have viewed both check marks on the list and succesfully completed all 
+accompanying git activiites. 
+6. Writing a simple Etch-a-sketch program
+   I have written a simple Etch-a-Sketch program as detailed below. 
+
 
 
 Etch-a-sketch Notes
