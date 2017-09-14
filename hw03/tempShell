@@ -1,0 +1,10 @@
+#!/bin/bash
+# My first script
+
+temp=`i2cget -y 1 0x48 00`
+temp2=`i2cget -y 1 0x4a 00`
+tempOut=$(($temp *9/5 + 32))
+tempOut2=$(($temp2 *9/5 + 32))
+echo $tempOut "Degrees Fahrenheit"
+echo $tempOut2 "Degrees Fahrenheit"
+
