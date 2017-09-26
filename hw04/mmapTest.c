@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
     volatile unsigned int *gpio_cleardataout_addr_light;
     
     unsigned int reg;
+    unsigned int reg2;
 
     // Set the signal callback for Ctrl-C
     signal(SIGINT, signal_handler);
@@ -92,25 +93,34 @@ int main(int argc, char *argv[]) {
 
     printf("Start copying Stuff\n");
     
-        // Set USR3 to be an output pin
+    // Set USR3 to be an output pin
     reg = *gpio_oe_addr_light;
     printf("GPIO1 configuration: %X\n", reg);
     reg &= ~USR3;       // Set USR3 bit to 0
     *gpio_oe_addr_light = reg;
     printf("GPIO1 configuration: %X\n", reg);
     
+    // Set USR2 to be an output pin
+    reg2 = *gpio_oe_addr;
+    printf("GPIO1 configuration: %X\n", reg2);
+    reg2 &= ~USR2;       // Set USR3 bit to 0
+    *gpio_oe_addr = reg2;
+    printf("GPIO1 configuration: %X\n", reg2);
+    
     
     while(keepgoing) {
-        if(*gpio_datain_light & GPIO_17){
-            //printf("Stuff\n");
+        if(!(*gpio_datain_light & GPIO_17)){
             *gpio_setdataout_addr = USR3;
             usleep(250000);
-    	} if(*gpio_datain & GPIO_17){
-            //printf("Stuff\n");
+    	} else {
+            *gpio_cleardataout_addr = USR3;
+            usleep(250000);
+    	}
+    	
+    	if(!(*gpio_datain & GPIO_17)){
             *gpio_setdataout_addr = USR2;
             usleep(250000);
         } else {
-            *gpio_cleardataout_addr = USR3;
             *gpio_cleardataout_addr = USR2;
             usleep(250000);
     	}
