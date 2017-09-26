@@ -27,6 +27,7 @@ persist = 0
 x = 0
 y = 0
 bounce = 0.3
+rollBounce = 0.2
 
 rcpy.set_state(rcpy.RUNNING)
 
@@ -124,31 +125,27 @@ try:
                   y = y - 1
                   grid[y, x] = 1
                   printGrid()
-                  time.sleep(bounce)
                 
             if(e2 < ep2): 
                 if(y < height - 1) :
                   y = y + 1
                   grid[y, x] = 1
                   printGrid()
-                  time.sleep(bounce)
 
             if(e3 > ep3):
                 if(x > 0) :
                   x = x - 1
                   grid[y, x] = 1
                   printGrid()
-                  time.sleep(bounce)
                 
             if(e3 < ep3): 
                 if(x < width - 1) :
                   x = x + 1
                   grid[y, x] = 1
                   printGrid()
-                  time.sleep(bounce)
                   
                   
-        time.sleep(.5)  # sleep some
+        time.sleep(rollBounce)  # sleep some
 
 except KeyboardInterrupt:
     # Catch Ctrl-C

@@ -111,18 +111,14 @@ int main(int argc, char *argv[]) {
     while(keepgoing) {
         if(!(*gpio_datain_light & GPIO_17)){
             *gpio_setdataout_addr = USR3;
-            usleep(250000);
     	} else {
             *gpio_cleardataout_addr = USR3;
-            usleep(250000);
     	}
     	
     	if(!(*gpio_datain & GPIO_17)){
             *gpio_setdataout_addr = USR2;
-            usleep(250000);
         } else {
             *gpio_cleardataout_addr = USR2;
-            usleep(250000);
     	}
         //usleep(1);
     }
