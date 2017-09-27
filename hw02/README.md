@@ -37,3 +37,6 @@ Move Right: GP0_3/d
 Clear: PUASE/c
 Quit: MODE/x
 
+# Comments from Prof. Yoder
+# Looks good. Nice documentation. 
+# Grade:  10/10
