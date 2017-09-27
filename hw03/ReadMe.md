@@ -10,3 +10,7 @@ sets up an 8x8 grid, output to the LED, which works as an etch-a-skethc. User
 can either use the wsad keys to move the light, or the four push buttons wired
 into the GPIO. The board may be cleared with either the c character or the puase
 button. The program may be exited with either the x character or the MOD button. 
+
+# Comments from Prof. Yoder
+# Looks good.  Nice comments.
+# Grade:  10/10
