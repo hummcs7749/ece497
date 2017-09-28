@@ -2,6 +2,7 @@
     var firstconnect = true,
         i2cNum  = "0x70",
 	disp = [];
+	var color = 0;
 
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
@@ -25,8 +26,21 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
     disp[i] ^= 0x1<<j;
-    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
+    //
+    if(color === 0){
+        color++;
+    } else if(color === 1){
+        color--;
+    }
+    
+    //A change was made in the line below
+    //
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+color, 
 			     disp: '0x'+disp[i].toString(16)});
+			     
+			     
+	//Change was made in the line above
+			     
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
     if(disp[i]>>j&0x1 === 1) {
