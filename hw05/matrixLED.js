@@ -1,8 +1,11 @@
     var socket;
     var firstconnect = true,
         i2cNum  = "0x70",
-	disp = [];
+	dispR = [],
+	dispG = [];
 	var color = 0;
+	var cList = [[],[],[],[],[],[],[],[]];
+	
 
 // Create a matrix of LEDs inside the <table> tags.
 var matrixData;
@@ -25,29 +28,66 @@ $("#slider1").slider({min:0, max:15, slide: function(event, ui) {
 // Send one column when LED is clicked.
 function LEDclick(i, j) {
 //	alert(i+","+j+" clicked");
-    disp[i] ^= 0x1<<j;
-    //
-    if(color === 0){
-        color++;
-    } else if(color === 1){
-        color--;
+    if((dispG[i] & 0x1<<j) !== 0x1<<j){
+        if((dispR[i] & 0x1<<j) !== 0x1<<j){
+            dispG[i] ^= 0x1<<j;
+        } else {
+            dispR[i] ^= 0x1<<j;
+        }
+    } else {
+        if((dispR[i] & 0x1<<j) !== 0x1<<j){
+            dispR[i] ^= 0x1<<j;
+        } else {
+            dispG[i] ^= 0x1<<j;
+        }
     }
+    
+    
+    
+    
+    //New code
+
+    //End
     
     //A change was made in the line below
     //
-    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i+color, 
-			     disp: '0x'+disp[i].toString(16)});
+    
+    
+    
+    socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i, 
+			     disp: '0x'+dispG[i].toString(16)});
+			     
+	socket.emit('i2cset', {i2cNum: i2cNum, i: 2*i + 1, 
+			     disp: '0x'+dispR[i].toString(16)});
 			     
 			     
 	//Change was made in the line above
 			     
 //	socket.emit('i2c', i2cNum);
     // Toggle bit on display
-    if(disp[i]>>j&0x1 === 1) {
-        $('#id'+i+'_'+j).addClass('on');
+    
+    
+    
+    if(dispG[i]>>j&0x1 === 1) {
+        if(dispR[i]>>j&0x1 === 1) {
+            $('#id'+i+'_'+j).addClass('onYellow');
+            $('#id'+i+'_'+j).removeClass('onGreen');
+            $('#id'+i+'_'+j).removeClass('onRed');
+        } else {
+            $('#id'+i+'_'+j).removeClass('onYellow');
+            $('#id'+i+'_'+j).addClass('onGreen');
+            $('#id'+i+'_'+j).removeClass('onRed');
+        }
     } else {
-        $('#id'+i+'_'+j).removeClass('on');
+        if(dispR[i]>>j&0x1 === 1) {
+            $('#id'+i+'_'+j).addClass('onRed');
+        } else {
+            $('#id'+i+'_'+j).removeClass('onRed');
+        }
+        $('#id'+i+'_'+j).removeClass('onGreen');
+        $('#id'+i+'_'+j).removeClass('onYellow');
     }
+        
 }
 
     function connect() {
@@ -93,11 +133,13 @@ function LEDclick(i, j) {
       socket.disconnect();
     }
 
+
     // When new data arrives, convert it and display it.
     // data is a string of 16 values, each a pair of hex digits.
     function matrix(data) {
         var i, j;
-        disp = [];
+        dispR = [];
+        dispG = [];
         //        status_update("i2c: " + data);
         // Make data an array, each entry is a pair of digits
         data = data.split(" ");
@@ -105,18 +147,34 @@ function LEDclick(i, j) {
         // Every other pair of digits are Green. The others are red.
         // Ignore the red.
         // Convert from hex.
+        console.log(data);
         for (i = 0; i < data.length; i += 2) {
-            disp[i / 2] = parseInt(data[i], 16);
+            dispR[(i / 2)] = parseInt(data[i + 1], 16);
+            dispG[(i /2)] = parseInt(data[i], 16);
         }
         //        status_update("disp: " + disp);
         // i cycles through each column
-        for (i = 0; i < disp.length; i++) {
+        for (i = 0; i < dispG.length; i++) {
             // j cycles through each bit
             for (j = 0; j < 8; j++) {
-                if (((disp[i] >> j) & 0x1) === 1) {
-                    $('#id' + i + '_' + j).addClass('on');
+                if (((dispG[i] >> j) & 0x1) === 1) {
+                    if (((dispR[i] >> j) & 0x1) === 1) {
+                        $('#id' + i + '_' + j).addClass('onYellow');
+                        $('#id' + i + '_' + j).removeClass('onRed');
+                        $('#id' + i + '_' + j).removeClass('onGreen');
+                    } else {
+                        $('#id' + i + '_' + j).addClass('onGreen');
+                        $('#id' + i + '_' + j).removeClass('onRed');
+                        $('#id' + i + '_' + j).removeClass('onYellow');
+                    }
+                } else if (((dispR[i] >> j) & 0x1) === 1) {
+                    $('#id' + i + '_' + j).removeClass('onGreen');
+                    $('#id' + i + '_' + j).removeClass('onYellow');
+                    $('#id' + i + '_' + j).addClass('onRed');
                 } else {
-                    $('#id' + i + '_' + j).removeClass('on');
+                    $('#id' + i + '_' + j).removeClass('onRed');
+                    $('#id' + i + '_' + j).removeClass('onGreen');
+                    $('#id' + i + '_' + j).removeClass('onYellow');
                 }
             }
         }

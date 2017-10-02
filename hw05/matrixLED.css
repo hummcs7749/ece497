@@ -29,10 +29,19 @@ body {
 	background-color: #eeeeee;
 }
 
-.on {
+.onRed {
+	border: 1px solid #ee0000;
+	background-color: red;
+}
+
+.onGreen {
 	border: 1px solid #00ee00;
 	background-color: green;
+}
 
+.onYellow {
+	border: 1px solid #eeee00;
+	background-color: yellow;
 }
 
 #i2cNum {
