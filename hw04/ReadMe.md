@@ -13,3 +13,8 @@ is printed out, just as in encoder.py, and the encoders can be used to move the
 cursor position on the x and y plane respectivley. Note, the degree  of the turn
 does not matter, only that the encoder was turned in a given time period. This 
 program needs to be run with sudo. 
+
+# Comments from Prof. Yoder
+# Found your memory map file
+# Looks good.
+# Grade:  10/10
