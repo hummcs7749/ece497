@@ -22,7 +22,13 @@ Text can be displayed with myText.sh, shown in whatever rotation the device
 is currently set to (It looks best in the 270 and 90 rotation, I suggest using
 the rotate.sh function to set it thus)
 
-Etch-a-sketch has also been updated so that it now prompts the user for a 
-character, 'R', 'B', or 'G', to set the color of the line drawn to, defaulting to 
-brown if none of those characters are input. The line width has also been updated 
-to five pixels. 
+Etch-a-sketch has also been updated so that it now accepts two arguemnts at the
+command line, numbers for color and width. The command should look like this
+
+sudo ./etch-a-sketch clr width
+
+Where color is 1, 2, or three for the values Red, Green, and Blue respectivley.
+If any other value is input, the color will defualt to brown.
+and width is a number between 1 and 10, corresponding ot the desired line width. 
+If a number below 1 is input, 1 is used for the width. If a number above 10 is 
+input, 10 is used for the width. 

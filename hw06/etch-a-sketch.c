@@ -20,7 +20,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include "/opt/source/Robotics_Cape_Installer/libraries/rc_usefulincludes.h"
 #include "/opt/source/Robotics_Cape_Installer/libraries/roboticscape.h"
 
-int main()
+int main(int argc, char **argv)
 {
     int fbfd = 0;
     struct fb_var_screeninfo vinfo;
@@ -37,6 +37,41 @@ int main()
     int width = 5;
     
     
+    if(argc == 3) {
+        clr = atoi(argv[1]);
+        if (clr == 1) {
+            r = 14;
+            g = 0;
+            b = 0;
+            printf("Red color will be used\n");
+        } else if (clr == 2) {
+            r = 0;
+            g = 17;
+            b = 0;
+            printf("Green color will be used\n");
+        } else if (clr == 3) {
+            r = 0;
+            g = 0;
+            b = 17;
+            printf("Blue color will be used\n");
+        } else {
+            r = 8;
+            g = 8;
+            b = 0;
+            printf("Nonstandard color input(1, 2, or 3), default color will be used\n");
+        }
+        width = atoi(argv[2]);
+        if(width < 1){
+            width = 1;
+        } else if(width > 10){
+            width = 10;
+        }
+        printf("Width is %d\n", width);
+    } else {
+        printf("Nonstandard inputs (int clr, int width) using default values.\n");
+    }
+    
+    /*
     printf("Choose a color. R-red, G-Green, B-Blue\n");
     clr = getchar();
     if (clr == 'R') {
@@ -56,7 +91,7 @@ int main()
         g = 8;
         b = 0;
     }
-    
+    */
 
 
     // Open the file for reading and writing
