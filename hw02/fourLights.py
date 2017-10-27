@@ -11,10 +11,8 @@ buttons = ["GP0_3", "GP0_4", "GP0_5", "GP0_6"]
 
 #Button Event Handler
 def updateLED(channel):
-    print("channel = " + channel)
     state = GPIO.input(channel)
     GPIO.output(map[channel], state)
-    print(map[channel] + " Toggled")
   
 #Dictionary to hold button/led pairs
 map = {}
