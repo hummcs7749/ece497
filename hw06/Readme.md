@@ -32,3 +32,8 @@ If any other value is input, the color will defualt to brown.
 and width is a number between 1 and 10, corresponding ot the desired line width. 
 If a number below 1 is input, 1 is used for the width. If a number above 10 is 
 input, 10 is used for the width. 
+
+// Comments from Prof. Yoder
+// Nice detailed README.
+// It works!
+// Grade:  10/10
